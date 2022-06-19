@@ -4,7 +4,7 @@ public class SinglyLinkedList<T>
 {
     private class Node<T>
     {
-        internal T Data { get;  }
+        internal T Data { get; set; }
         internal Node<T>? Next { get; set; }
 
         public Node(T data)
@@ -29,26 +29,55 @@ public class SinglyLinkedList<T>
         Length = 1;
     }
 
-    public T? GetData(int index)
-    {
-        return Front == null ? default : Front.Data;
-    }
-    
-    // public int? this[int index]
-    // {
-    //     get => GetData(0);
-    //     set => Front = new Node<T>(value);
-    // }
-    
     public void Append(T data)
     {
-        var newNode = new Node<T>(data);
+        Length++;
+        
+        var node = new Node<T>(data);
         
         if (Front == null)
-            Front = newNode;
+        {
+            Front = node;
+        }
         else
-            Front.Next = newNode;
+        {
+            var n = Front;
 
-        Length++;
+            while (n != null)
+            {
+                n = Front?.Next;
+            }
+
+            if (n != null)
+                n.Next = node;
+        }
+    }
+
+    public object? GetData(int index)
+    {
+        var i = 0;
+        
+        for (var node = Front; node != null; node = node.Next)
+        {
+            if (i == index)
+            {
+                return node.Data;
+            }
+        }
+
+        return null;
+    }
+
+    public void SetData(int index, T data)
+    {
+        var i = 0;
+
+        for (var node = Front; node != null; node = node.Next)
+        {
+            if (i == index)
+            {
+                node.Data = data;
+            }
+        }
     }
 }
